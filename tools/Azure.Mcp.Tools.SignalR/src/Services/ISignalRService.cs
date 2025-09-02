@@ -52,8 +52,20 @@ public interface ISignalRService
     /// </summary>
     Task<NetworkRule?> GetNetworkRulesAsync(
         string subscription,
-        string resourceGroup,
+        string resourceGroupName,
         string signalRName,
+        string? tenant = null,
+        AuthMethod? authMethod = null,
+        RetryPolicyOptions? retryPolicy = null);
+
+    /// <summary>
+    /// Updates upstream endpoint configurations for a SignalR service.
+    /// </summary>
+    Task<IEnumerable<Upstream>> UpdateUpstreamsAsync(
+        string subscription,
+        string resourceGroupName,
+        string signalRName,
+        IEnumerable<Upstream> upstreams,
         string? tenant = null,
         AuthMethod? authMethod = null,
         RetryPolicyOptions? retryPolicy = null);

@@ -17,4 +17,15 @@ public static class SignalROptionDefinitions
     {
         IsRequired = true
     };
+
+    public static readonly Option<string> Templates = new(
+        aliases: ["--templates", "-t"],
+        description: """
+                 Semicolon-separated list of upstream templates. Each template can contain comma-separated key-value pairs:
+                 url-template, hub-pattern, event-pattern, category-pattern.
+                 Example: "url-template="http://host-connections.com,category-pattern=connections;url-template="http://host-connections.com,hub-pattern=chat"
+                 """)
+    {
+        IsRequired = true
+    };
 }

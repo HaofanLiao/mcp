@@ -7,6 +7,7 @@ using Azure.Mcp.Core.Services.Azure.Subscription;
 using Azure.Mcp.Core.Services.Azure.Tenant;
 using Azure.Mcp.Tools.SignalR.Models;
 using Azure.ResourceManager.SignalR;
+using Azure.ResourceManager.SignalR.Models;
 
 namespace Azure.Mcp.Tools.SignalR.Services;
 
@@ -183,8 +184,7 @@ public class SignalRService(ISubscriptionService _subscriptionService, ITenantSe
                     {
                         userAssignedIdentities[key!] = new UserAssignedIdentity
                         {
-                            PrincipalId = value.PrincipalId?.ToString(),
-                            ClientId = value.ClientId?.ToString()
+                            PrincipalId = value.PrincipalId?.ToString(), ClientId = value.ClientId?.ToString()
                         };
                     }
                 }
@@ -255,5 +255,59 @@ public class SignalRService(ISubscriptionService _subscriptionService, ITenantSe
         {
             throw new Exception($"Failed to get SignalR identity for service '{signalRName}': {ex.Message}", ex);
         }
+    }
+
+    public async Task<IEnumerable<Upstream>> UpdateUpstreamsAsync(
+        string subscription,
+        string resourceGroupName,
+        string signalRName,
+        IEnumerable<Upstream> upstreams,
+        string? tenant = null,
+        AuthMethod? authMethod = null,
+        RetryPolicyOptions? retryPolicy = null)
+    {
+        ValidateRequiredParameters(subscription, resourceGroupName, signalRName);
+
+        try
+        {
+            var subscriptionResource = await _subscriptionService.GetSubscription(subscription, tenant, retryPolicy)
+                                       ?? throw new Exception($"Subscription '{subscription}' not found");
+
+            var resourceGroupResource = await subscriptionResource
+                .GetResourceGroupAsync(resourceGroupName);
+
+            var signalRResource = await resourceGroupResource.Value
+                .GetSignalRs()
+                .GetAsync(signalRName);
+
+            var signalRData = signalRResource.Value.Data;
+
+            signalRData.UpstreamTemplates.Clear();
+            IEnumerable<Upstream> updateUpstreamsAsync = upstreams as Upstream[] ?? upstreams.ToArray();
+            var convertedUpstreams = ConvertUpstreamsToInternal(updateUpstreamsAsync);
+            foreach (var template in convertedUpstreams)
+            {
+                signalRData.UpstreamTemplates.Add(template);
+            }
+
+            await signalRResource.Value.UpdateAsync(WaitUntil.Completed, signalRData);
+
+            return updateUpstreamsAsync;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(
+                $"Failed to update upstream configurations for SignalR service '{signalRName}': {ex.Message}", ex);
+        }
+    }
+
+    private static IList<SignalRUpstreamTemplate> ConvertUpstreamsToInternal(IEnumerable<Upstream> upstreams)
+    {
+        return upstreams.Select(upstream => new SignalRUpstreamTemplate(upstream.UrlTemplate)
+        {
+            HubPattern = upstream.HubPattern,
+            EventPattern = upstream.EventPattern,
+            CategoryPattern = upstream.CategoryPattern
+        }).ToList();
     }
 }

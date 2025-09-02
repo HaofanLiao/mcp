@@ -6,6 +6,7 @@ using Azure.Mcp.Tools.SignalR.Commands.Identity;
 using Azure.Mcp.Tools.SignalR.Commands.Key;
 using Azure.Mcp.Tools.SignalR.Commands.NetworkRule;
 using Azure.Mcp.Tools.SignalR.Commands.Runtime;
+using Azure.Mcp.Tools.SignalR.Commands.Upstream;
 
 namespace Azure.Mcp.Tools.SignalR.Commands;
 
@@ -17,5 +18,6 @@ namespace Azure.Mcp.Tools.SignalR.Commands;
 [JsonSerializable(typeof(KeyListCommand.KeyListCommandResult))]
 [JsonSerializable(typeof(IdentityShowCommand.IdentityShowCommandResult))]
 [JsonSerializable(typeof(NetworkRuleListCommand.NetworkRuleListCommandResult))]
+[JsonSerializable(typeof(UpstreamUpdateCommand.UpstreamUpdateCommandResult))]
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 internal sealed partial class SignalRJsonContext : JsonSerializerContext;

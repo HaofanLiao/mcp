@@ -7,6 +7,7 @@ using Azure.Mcp.Tools.SignalR.Commands.Identity;
 using Azure.Mcp.Tools.SignalR.Commands.Key;
 using Azure.Mcp.Tools.SignalR.Commands.NetworkRule;
 using Azure.Mcp.Tools.SignalR.Commands.Runtime;
+using Azure.Mcp.Tools.SignalR.Commands.Upstream;
 using Azure.Mcp.Tools.SignalR.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -56,5 +57,11 @@ public class SignalRSetup : IAreaSetup
 
         networkRule.AddCommand("list", new NetworkRuleListCommand(
             loggerFactory.CreateLogger<NetworkRuleListCommand>()));
+
+        var upstream = new CommandGroup(
+            "upstream",
+            "SignalR upstream operations - Commands for managing upstream settings in Azure SignalR Service resources.");
+        signalr.AddSubGroup(upstream);
+        upstream.AddCommand("update", new UpstreamUpdateCommand(loggerFactory.CreateLogger<UpstreamUpdateCommand>()));
     }
 }
