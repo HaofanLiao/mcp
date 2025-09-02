@@ -77,6 +77,12 @@ public class SignalRService(ISubscriptionService _subscriptionService, ITenantSe
                 .GetSignalRs()
                 .GetAsync(signalRName);
 
+            var localAuthDisable = signalRResource.Value.Data.DisableLocalAuth ?? false;
+            if (localAuthDisable)
+            {
+                throw new RequestFailedException(403, "Access keys are disabled for this SignalR service.");
+            }
+
             var keys = await signalRResource.Value.GetKeysAsync();
 
             return new Key
@@ -210,7 +216,8 @@ public class SignalRService(ISubscriptionService _subscriptionService, ITenantSe
 
         try
         {
-            var subscriptionResource = await _subscriptionService.GetSubscription(subscription, null, retryPolicy);
+            var subscriptionResource = await _subscriptionService.GetSubscription(subscription, tenant, retryPolicy)
+                                       ?? throw new Exception($"Subscription '{subscription}' not found");
 
             var resourceGroupResource = await subscriptionResource
                 .GetResourceGroupAsync(resourceGroup, cancellationToken: default);
