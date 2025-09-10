@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.CommandLine.Parsing;
+using System.CommandLine;
 using System.Text.Json;
 using Azure.Mcp.Core.Models;
 using Azure.Mcp.Core.Models.Command;
@@ -23,7 +23,7 @@ public class NetworkRuleListCommandTests
     private readonly ILogger<NetworkRuleListCommand> _logger;
     private readonly NetworkRuleListCommand _command;
     private readonly CommandContext _context;
-    private readonly Parser _parser;
+    private readonly Command _commandDefinition;
 
     public NetworkRuleListCommandTests()
     {
@@ -34,7 +34,7 @@ public class NetworkRuleListCommandTests
         _serviceProvider = collection.BuildServiceProvider();
         _command = new(_logger);
         _context = new(_serviceProvider);
-        _parser = new(_command.GetCommand());
+        _commandDefinition = _command.GetCommand();
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class NetworkRuleListCommandTests
                 .Returns(testNetworkRules);
         }
 
-        var parseResult = _parser.Parse(args.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        var parseResult = _commandDefinition.Parse(args.Split(' ', StringSplitOptions.RemoveEmptyEntries));
 
         // Act
         var response = await _command.ExecuteAsync(_context, parseResult);
@@ -134,7 +134,7 @@ public class NetworkRuleListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(expectedNetworkRules);
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
@@ -177,7 +177,7 @@ public class NetworkRuleListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns((Models.NetworkRule?)null);
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name",
             "nonexistent-signalr"
         ]);
@@ -205,7 +205,7 @@ public class NetworkRuleListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(Task.FromException<Models.NetworkRule?>(exception));
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
@@ -230,7 +230,7 @@ public class NetworkRuleListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(Task.FromException<Models.NetworkRule?>(new Exception("Network configuration error")));
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
@@ -259,7 +259,7 @@ public class NetworkRuleListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(networkRules);
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
@@ -299,7 +299,7 @@ public class NetworkRuleListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(emptyNetworkRules);
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 

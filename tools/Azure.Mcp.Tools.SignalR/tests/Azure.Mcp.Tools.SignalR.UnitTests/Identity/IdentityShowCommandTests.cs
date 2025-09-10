@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 
-using System.CommandLine.Parsing;
+using System.CommandLine;
 using Azure.Mcp.Core.Models;
 using Azure.Mcp.Core.Models.Command;
 using Azure.Mcp.Core.Options;
@@ -22,7 +22,7 @@ public class IdentityShowCommandTests
     private readonly ILogger<IdentityShowCommand> _logger;
     private readonly IdentityShowCommand _command;
     private readonly CommandContext _context;
-    private readonly Parser _parser;
+    private readonly Command _commandDefinition;
 
     public IdentityShowCommandTests()
     {
@@ -33,7 +33,7 @@ public class IdentityShowCommandTests
         _serviceProvider = collection.BuildServiceProvider();
         _command = new(_logger);
         _context = new(_serviceProvider);
-        _parser = new(_command.GetCommand());
+        _commandDefinition = _command.GetCommand();
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public class IdentityShowCommandTests
                 .Returns(testIdentity);
         }
 
-        var parseResult = _parser.Parse(args.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        var parseResult = _commandDefinition.Parse(args.Split(' ', StringSplitOptions.RemoveEmptyEntries));
 
         // Act
         var response = await _command.ExecuteAsync(_context, parseResult);
@@ -112,7 +112,7 @@ public class IdentityShowCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(expectedIdentity);
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
@@ -138,7 +138,7 @@ public class IdentityShowCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns((Models.Identity?)null);
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name",
             "nonexistent-signalr"
         ]);
@@ -166,7 +166,7 @@ public class IdentityShowCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(Task.FromException<Models.Identity?>(exception));
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
@@ -191,7 +191,7 @@ public class IdentityShowCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(Task.FromException<Models.Identity?>(new Exception("Test error")));
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 

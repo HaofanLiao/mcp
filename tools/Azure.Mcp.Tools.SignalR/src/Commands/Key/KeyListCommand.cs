@@ -36,27 +36,27 @@ public sealed class KeyListCommand(ILogger<KeyListCommand> logger)
     {
         base.RegisterOptions(command);
         RequireResourceGroup();
-        command.AddOption(_signalRNameOption);
+        command.Options.Add(_signalRNameOption);
     }
 
     protected override KeyListOptions BindOptions(ParseResult parseResult)
     {
         var options = base.BindOptions(parseResult);
-        options.SignalRName = parseResult.GetValueForOption(_signalRNameOption);
+        options.SignalRName = parseResult.GetValue(_signalRNameOption);
         return options;
     }
 
     public override async Task<CommandResponse> ExecuteAsync(CommandContext context, ParseResult parseResult)
     {
+        if (!Validate(parseResult.CommandResult, context.Response).IsValid)
+        {
+            return context.Response;
+        }
+
         var options = BindOptions(parseResult);
 
         try
         {
-            if (!Validate(parseResult.CommandResult, context.Response).IsValid)
-            {
-                return context.Response;
-            }
-
             var signalRService = context.GetService<ISignalRService>();
             var keys = await signalRService.ListKeysAsync(
                 options.Subscription!,

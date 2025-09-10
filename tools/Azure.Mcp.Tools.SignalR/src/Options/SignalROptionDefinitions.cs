@@ -12,9 +12,9 @@ public static class SignalROptionDefinitions
     /// SignalR service name option.
     /// </summary>
     public static readonly Option<string> SignalRName = new(
-        aliases: ["--signalr-name", "-n"],
-        description: "The name of the SignalR service")
+        "--signalr-name")
     {
-        IsRequired = true
+        Description = "The name of the SignalR service",
+        Required = true
     };
 }

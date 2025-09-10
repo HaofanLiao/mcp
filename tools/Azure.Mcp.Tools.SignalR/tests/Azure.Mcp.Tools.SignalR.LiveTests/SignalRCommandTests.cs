@@ -9,9 +9,12 @@ using Xunit;
 
 namespace Azure.Mcp.Tools.SignalR.LiveTests
 {
-    public class SignalRCommandTests(LiveTestFixture liveTestFixture, ITestOutputHelper output)
-        : CommandTestsBase(liveTestFixture, output), IClassFixture<LiveTestFixture>
+    public class SignalRCommandTests : CommandTestsBase
     {
+        public SignalRCommandTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public async Task Should_list_signalr_runtimes_by_subscription_id()
         {

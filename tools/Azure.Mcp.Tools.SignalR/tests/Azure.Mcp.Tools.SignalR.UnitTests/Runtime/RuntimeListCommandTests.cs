@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 
-using System.CommandLine.Parsing;
+using System.CommandLine;
 using System.Text.Json;
 using Azure.Mcp.Core.Models;
 using Azure.Mcp.Core.Models.Command;
@@ -23,7 +23,7 @@ public class RuntimeListCommandTests
     private readonly ILogger<RuntimeListCommand> _logger;
     private readonly RuntimeListCommand _command;
     private readonly CommandContext _context;
-    private readonly Parser _parser;
+    private readonly Command _commandDefinition;
 
     public RuntimeListCommandTests()
     {
@@ -34,7 +34,7 @@ public class RuntimeListCommandTests
         _serviceProvider = collection.BuildServiceProvider();
         _command = new(_logger);
         _context = new(_serviceProvider);
-        _parser = new(_command.GetCommand());
+        _commandDefinition = _command.GetCommand();
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class RuntimeListCommandTests
                 .Returns(testRuntimes);
         }
 
-        var parseResult = _parser.Parse(args.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        var parseResult = _commandDefinition.Parse(args.Split(' ', StringSplitOptions.RemoveEmptyEntries));
 
         // Act
         var response = await _command.ExecuteAsync(_context, parseResult);
@@ -115,7 +115,7 @@ public class RuntimeListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(expectedRuntimes);
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
@@ -150,7 +150,7 @@ public class RuntimeListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(new List<Models.Runtime>());
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription"
         ]);
 
@@ -173,7 +173,7 @@ public class RuntimeListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(Task.FromException<IEnumerable<Models.Runtime>>(new Exception("Service unavailable")));
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "invalid-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
@@ -198,7 +198,7 @@ public class RuntimeListCommandTests
                 Arg.Any<RetryPolicyOptions>())
             .Returns(expectedRuntimes);
 
-        var parseResult = _parser.Parse([
+        var parseResult = _commandDefinition.Parse([
             "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
         ]);
 
