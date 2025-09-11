@@ -12,7 +12,7 @@ namespace Azure.Mcp.Tools.SignalR.Commands;
 /// <summary>
 /// JSON serialization context for Azure SignalR Service commands.
 /// </summary>
-[JsonSerializable(typeof(IdentityShowCommand.IdentityShowCommandResult))]
+[JsonSerializable(typeof(IdentityListCommand.IdentityListCommandResult))]
 [JsonSerializable(typeof(KeyListCommand.KeyListCommandResult))]
 [JsonSerializable(typeof(NetworkRuleListCommand.NetworkRuleListCommandResult))]
 [JsonSerializable(typeof(RuntimeListCommand.RuntimeListCommandResult))]

@@ -12,9 +12,9 @@ public static class SignalROptionDefinitions
     /// SignalR service name option.
     /// </summary>
     public static readonly Option<string> SignalRName = new(
-        "--signalr-name")
+        "--signalr")
     {
-        Description = "The name of the SignalR service",
+        Description = "The name of the SignalR runtime",
         Required = true
     };
 }

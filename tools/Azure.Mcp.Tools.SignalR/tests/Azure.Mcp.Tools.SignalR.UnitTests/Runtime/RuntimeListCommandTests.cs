@@ -116,7 +116,7 @@ public class RuntimeListCommandTests
             .Returns(expectedRuntimes);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription"
         ]);
 
         // Act
@@ -165,7 +165,6 @@ public class RuntimeListCommandTests
     [Fact]
     public async Task ExecuteAsync_HandlesServiceErrors()
     {
-        // Arrange
         _signalRService.ListRuntimesAsync(
                 Arg.Any<string>(),
                 Arg.Any<string>(),
@@ -174,7 +173,7 @@ public class RuntimeListCommandTests
             .Returns(Task.FromException<IEnumerable<Models.Runtime>>(new Exception("Service unavailable")));
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "invalid-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "invalid-subscription"
         ]);
 
         // Act
@@ -199,7 +198,7 @@ public class RuntimeListCommandTests
             .Returns(expectedRuntimes);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription"
         ]);
 
         // Act

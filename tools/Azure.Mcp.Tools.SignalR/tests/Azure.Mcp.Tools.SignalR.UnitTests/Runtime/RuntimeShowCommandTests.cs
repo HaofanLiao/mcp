@@ -48,10 +48,10 @@ public class RuntimeShowCommandTests
     }
 
     [Theory]
-    [InlineData("--subscription sub1 --resource-group rg1 --signalr-name signalr1", true)]
-    [InlineData("--subscription sub1 --signalr-name signalr1", false)] // Missing resource-group
-    [InlineData("--subscription sub1 --resource-group rg1", false)] // Missing signalr-name
-    [InlineData("--resource-group rg1 --signalr-name signalr1", false)] // Missing subscription
+    [InlineData("--subscription sub1 --resource-group rg1 --signalr signalr1", true)]
+    [InlineData("--subscription sub1 --signalr signalr1", false)] // Missing resource-group
+    [InlineData("--subscription sub1 --resource-group rg1", false)] // Missing signalr
+    [InlineData("--resource-group rg1 --signalr signalr1", false)] // Missing subscription
     [InlineData("", false)] // Missing all required options
     public async Task ExecuteAsync_ValidatesInputCorrectly(string args, bool shouldSucceed)
     {
@@ -116,7 +116,7 @@ public class RuntimeShowCommandTests
             .Returns(expectedRuntime);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act
@@ -153,7 +153,7 @@ public class RuntimeShowCommandTests
             .Returns((Models.Runtime?)null);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name",
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr",
             "nonexistent-signalr"
         ]);
 
@@ -180,7 +180,7 @@ public class RuntimeShowCommandTests
             .Returns(Task.FromException<Models.Runtime?>(new Exception("Service unavailable")));
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "invalid-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "invalid-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act
@@ -207,7 +207,7 @@ public class RuntimeShowCommandTests
             .Returns(expectedRuntime);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act
@@ -243,7 +243,7 @@ public class RuntimeShowCommandTests
             .Returns(runtime);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act
@@ -281,7 +281,7 @@ public class RuntimeShowCommandTests
             .Returns(runtime);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act

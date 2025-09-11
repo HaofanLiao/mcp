@@ -30,7 +30,7 @@ public sealed class KeyListCommand(ILogger<KeyListCommand> logger)
 
     public override string Title => CommandTitle;
 
-    public override ToolMetadata Metadata => new() { Destructive = false, ReadOnly = true };
+    public override ToolMetadata Metadata => new() { Destructive = false, ReadOnly = true, Secret = true };
 
     protected override void RegisterOptions(Command command)
     {

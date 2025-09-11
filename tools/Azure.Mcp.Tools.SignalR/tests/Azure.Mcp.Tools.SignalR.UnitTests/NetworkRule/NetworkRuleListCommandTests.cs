@@ -48,10 +48,10 @@ public class NetworkRuleListCommandTests
     }
 
     [Theory]
-    [InlineData("--subscription sub1 --resource-group rg1 --signalr-name signalr1", true)]
+    [InlineData("--subscription sub1 --resource-group rg1 --signalr signalr1", true)]
     [InlineData("--subscription sub1 --signalr-name signalr1", false)] // Missing resource-group
     [InlineData("--subscription sub1 --resource-group rg1", false)] // Missing signalr-name
-    [InlineData("--resource-group rg1 --signalr-name signalr1", false)] // Missing subscription
+    [InlineData("--resource-group rg1 --signalr signalr1", false)] // Missing subscription
     [InlineData("", false)] // Missing all required options
     public async Task ExecuteAsync_ValidatesInputCorrectly(string args, bool shouldSucceed)
     {
@@ -135,7 +135,7 @@ public class NetworkRuleListCommandTests
             .Returns(expectedNetworkRules);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act
@@ -178,7 +178,7 @@ public class NetworkRuleListCommandTests
             .Returns((Models.NetworkRule?)null);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name",
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr",
             "nonexistent-signalr"
         ]);
 
@@ -206,7 +206,7 @@ public class NetworkRuleListCommandTests
             .Returns(Task.FromException<Models.NetworkRule?>(exception));
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act
@@ -231,7 +231,7 @@ public class NetworkRuleListCommandTests
             .Returns(Task.FromException<Models.NetworkRule?>(new Exception("Network configuration error")));
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act
@@ -260,7 +260,7 @@ public class NetworkRuleListCommandTests
             .Returns(networkRules);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act
@@ -300,7 +300,7 @@ public class NetworkRuleListCommandTests
             .Returns(emptyNetworkRules);
 
         var parseResult = _commandDefinition.Parse([
-            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr-name", "test-signalr"
+            "--subscription", "test-subscription", "--resource-group", "test-rg", "--signalr", "test-signalr"
         ]);
 
         // Act

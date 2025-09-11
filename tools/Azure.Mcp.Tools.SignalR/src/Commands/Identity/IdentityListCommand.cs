@@ -10,21 +10,21 @@ using Microsoft.Extensions.Logging;
 namespace Azure.Mcp.Tools.SignalR.Commands.Identity;
 
 /// <summary>
-/// Shows the managed identity configuration of an Azure SignalR Service.
+/// List the managed identity configuration of an Azure SignalR Service.
 /// </summary>
-public sealed class IdentityShowCommand(ILogger<IdentityShowCommand> logger)
-    : BaseSignalRCommand<IdentityShowOptions>
+public sealed class IdentityListCommand(ILogger<IdentityListCommand> logger)
+    : BaseSignalRCommand<IdentityListOptions>
 {
-    private const string CommandTitle = "Show Identity Configuration";
-    private readonly ILogger<IdentityShowCommand> _logger = logger;
+    private const string CommandTitle = "List Identity Configuration";
+    private readonly ILogger<IdentityListCommand> _logger = logger;
 
     private static readonly Option<string> _signalRNameOption = SignalROptionDefinitions.SignalRName;
 
-    public override string Name => "show";
+    public override string Name => "list";
 
     public override string Description =>
         """
-        Show the managed identity configuration of an Azure SignalR Service. Returns identity information
+        List the managed identity configuration of an Azure SignalR Service. Returns identity information
         including type (SystemAssigned, UserAssigned), principal ID, tenant ID, and any
         user-assigned identities associated with the service.
         """;
@@ -40,7 +40,7 @@ public sealed class IdentityShowCommand(ILogger<IdentityShowCommand> logger)
         command.Options.Add(_signalRNameOption);
     }
 
-    protected override IdentityShowOptions BindOptions(ParseResult parseResult)
+    protected override IdentityListOptions BindOptions(ParseResult parseResult)
     {
         var options = base.BindOptions(parseResult);
         options.SignalRName = parseResult.GetValue(_signalRNameOption);
@@ -70,17 +70,17 @@ public sealed class IdentityShowCommand(ILogger<IdentityShowCommand> logger)
             context.Response.Results = identity is null
                 ? null
                 : ResponseResult.Create(
-                    new IdentityShowCommandResult(identity),
-                    SignalRJsonContext.Default.IdentityShowCommandResult);
+                    new IdentityListCommandResult(identity),
+                    SignalRJsonContext.Default.IdentityListCommandResult);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An exception occurred showing SignalR identity");
+            _logger.LogError(ex, "An exception occurred listing SignalR identity");
             HandleException(context, ex);
         }
 
         return context.Response;
     }
 
-    internal record IdentityShowCommandResult(Models.Identity Identity);
+    internal record IdentityListCommandResult(Models.Identity Identity);
 }
