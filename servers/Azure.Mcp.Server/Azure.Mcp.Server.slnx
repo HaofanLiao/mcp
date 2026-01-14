@@ -309,6 +309,14 @@
     <Project Path="../../tools/Azure.Mcp.Tools.SignalR/tests/Azure.Mcp.Tools.SignalR.LiveTests/Azure.Mcp.Tools.SignalR.LiveTests.csproj" />
     <Project Path="../../tools/Azure.Mcp.Tools.SignalR/tests/Azure.Mcp.Tools.SignalR.UnitTests/Azure.Mcp.Tools.SignalR.UnitTests.csproj" />
   </Folder>
+  <Folder Name="/tools/Azure.Mcp.Tools.WebPubSub/" />
+  <Folder Name="/tools/Azure.Mcp.Tools.WebPubSub/src/">
+    <Project Path="../../tools/Azure.Mcp.Tools.WebPubSub/src/Azure.Mcp.Tools.WebPubSub.csproj" />
+  </Folder>
+  <Folder Name="/tools/Azure.Mcp.Tools.WebPubSub/tests/">
+    <Project Path="../../tools/Azure.Mcp.Tools.WebPubSub/tests/Azure.Mcp.Tools.WebPubSub.LiveTests/Azure.Mcp.Tools.WebPubSub.LiveTests.csproj" />
+    <Project Path="../../tools/Azure.Mcp.Tools.WebPubSub/tests/Azure.Mcp.Tools.WebPubSub.UnitTests/Azure.Mcp.Tools.WebPubSub.UnitTests.csproj" />
+  </Folder>
   <Folder Name="/tools/Azure.Mcp.Tools.Speech/" />
   <Folder Name="/tools/Azure.Mcp.Tools.Speech/src/">
     <Project Path="../../tools/Azure.Mcp.Tools.Speech/src/Azure.Mcp.Tools.Speech.csproj" />

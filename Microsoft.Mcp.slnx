@@ -371,6 +371,14 @@
     <Project Path="tools/Azure.Mcp.Tools.VirtualDesktop/tests/Azure.Mcp.Tools.VirtualDesktop.LiveTests/Azure.Mcp.Tools.VirtualDesktop.LiveTests.csproj" />
     <Project Path="tools/Azure.Mcp.Tools.VirtualDesktop/tests/Azure.Mcp.Tools.VirtualDesktop.UnitTests/Azure.Mcp.Tools.VirtualDesktop.UnitTests.csproj" />
   </Folder>
+  <Folder Name="/tools/Azure.Mcp.Tools.WebPubSub/" />
+  <Folder Name="/tools/Azure.Mcp.Tools.WebPubSub/src/">
+    <Project Path="tools/Azure.Mcp.Tools.WebPubSub/src/Azure.Mcp.Tools.WebPubSub.csproj" />
+  </Folder>
+  <Folder Name="/tools/Azure.Mcp.Tools.WebPubSub/tests/">
+    <Project Path="tools/Azure.Mcp.Tools.WebPubSub/tests/Azure.Mcp.Tools.WebPubSub.LiveTests/Azure.Mcp.Tools.WebPubSub.LiveTests.csproj" />
+    <Project Path="tools/Azure.Mcp.Tools.WebPubSub/tests/Azure.Mcp.Tools.WebPubSub.UnitTests/Azure.Mcp.Tools.WebPubSub.UnitTests.csproj" />
+  </Folder>
   <Folder Name="/tools/Azure.Mcp.Tools.Workbooks/" />
   <Folder Name="/tools/Azure.Mcp.Tools.Workbooks/src/">
     <Project Path="tools/Azure.Mcp.Tools.Workbooks/src/Azure.Mcp.Tools.Workbooks.csproj" />
