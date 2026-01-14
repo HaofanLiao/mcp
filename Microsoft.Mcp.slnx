@@ -376,6 +376,8 @@
     <Project Path="tools/Azure.Mcp.Tools.WebPubSub/src/Azure.Mcp.Tools.WebPubSub.csproj" />
   </Folder>
   <Folder Name="/tools/Azure.Mcp.Tools.WebPubSub/tests/">
+    <File Path="tools/Azure.Mcp.Tools.WebPubSub/tests/test-resources-post.ps1" />
+    <File Path="tools/Azure.Mcp.Tools.WebPubSub/tests/test-resources.bicep" />
     <Project Path="tools/Azure.Mcp.Tools.WebPubSub/tests/Azure.Mcp.Tools.WebPubSub.LiveTests/Azure.Mcp.Tools.WebPubSub.LiveTests.csproj" />
     <Project Path="tools/Azure.Mcp.Tools.WebPubSub/tests/Azure.Mcp.Tools.WebPubSub.UnitTests/Azure.Mcp.Tools.WebPubSub.UnitTests.csproj" />
   </Folder>

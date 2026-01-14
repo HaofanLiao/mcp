@@ -730,6 +730,17 @@ This file contains prompts used for end-to-end testing to ensure each tool is in
 | virtualdesktop_hostpool_host_list | List all session hosts in host pool <hostpool_name> |
 | virtualdesktop_hostpool_host_user-list | List all user sessions on session host <sessionhost_name> in host pool <hostpool_name> |
 
+## Azure WebPubSub
+
+| Tool Name             | Test Prompt |
+|:----------------------|:----------|
+| webpubsub_runtime_get | Show me the details of WebPubSub <webpubsub_name> |
+| webpubsub_runtime_get | Show me the network information of WebPubSub runtime <webpubsub_name> |
+| webpubsub_runtime_get | Describe the WebPubSub runtime <webpubsub_name> in resource group <webpubsub_name> |
+| webpubsub_runtime_get | Get information about my WebPubSub runtime <webpubsub_name> in <resource_group_name> |
+| webpubsub_runtime_get | Show all the WebPubSubs information in <resource_group_name> |
+| webpubsub_runtime_get | List all WebPubSubs in my subscription |
+
 ## Azure Workbooks
 
 | Tool Name | Test Prompt |

@@ -2307,6 +2307,16 @@ azmcp virtualdesktop hostpool host user-list --subscription <subscription> \
                                                            [--resource-group <resource-group>]
 ```
 
+### Azure WebPubSub Service Operations
+
+```bash
+# Get detailed properties of WebPubSub Service runtimes
+# ❌ Destructive | ✅ Idempotent | ❌ OpenWorld | ✅ ReadOnly | ❌ Secret | ❌ LocalRequired
+azmcp webpubsub runtime get --subscription <subscription> \
+                           [--resource-group <resource-group>] \
+                           [--webpubsub <webpubsub-name>]
+```
+
 #### Resource Group Optimization
 
 The Virtual Desktop commands support an optional `--resource-group` parameter that provides significant performance improvements when specified:
